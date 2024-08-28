@@ -14,7 +14,7 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
+      "js": ["scripts/content.js", "scripts/events.js"],
       "matches": [
         "https://www.investing.com/economic-calendar/"
       ]

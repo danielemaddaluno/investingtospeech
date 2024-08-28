@@ -25,7 +25,7 @@ function notifyEvents(events) {
 // TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
 const checkSeconds = 15;
-let alertMinutes = [1, 5, 10, 15];
+let alertMinutes = [1]; //[1, 5, 10, 15];
 
 function performCheck() {
   const now = new Date();
@@ -83,104 +83,3 @@ const checkingInterval = setInterval(performCheck, 1000);
 //   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
 //   (date ?? heading).insertAdjacentElement('afterend', badge);
 // }
-
-
-// console.log(new Date("Tuesday, August 27, 2024 11:51 GMT-0500").toUTCString())
-
-// Utility function to parse the sentiment (stars) from the sentiment cell
-function parseSentiment(sentimentCell) {
-  const starIcons = sentimentCell.querySelectorAll("i.grayFullBullishIcon");
-  return starIcons.length > 0 ? starIcons.length : null;
-}
-
-function safeQuerySelectorTextContent(element, selector) {
-  const selectedElement = element.querySelector(selector);
-  return selectedElement ? selectedElement.textContent.trim() : null;
-}
-
-// Function to extract economic events from the rows
-function parseEventRow(eventRow, day, timeZone) {
-  const dateTime = eventRow.getAttribute("data-event-datetime");
-  const time = test ? nextMin : (dateTime ? dateTime.split(" ")[1] : "All Day");
-  const currency = safeQuerySelectorTextContent(eventRow, ".flagCur") || null;
-  const countryElement = eventRow.querySelector(".flagCur span");
-  const country = countryElement ? countryElement.getAttribute("title") : null;
-  const sentimentCell = eventRow.querySelector(".sentiment");
-  const sentiment = sentimentCell ? parseSentiment(sentimentCell) : null;
-  const title = safeQuerySelectorTextContent(eventRow, ".event") || null;
-  
-  const event =  {
-    type: "EconomicEvent",
-    timeZone: timeZone,
-    date: day,
-    time: time,
-    dateTime: new Date(day + " " + time + " " + timeZone),
-    currency: currency,
-    country: country,
-    sentiment: sentiment,
-    title: title
-  };
-  // console.log(event);
-  
-  return event;
-}
-
-function parseDateRow(dateRow) {
-  return dateRow.textContent.trim();
-}
-
-// Function to get the economic events from the table
-function getEconomicEvents() {
-  const table = document.querySelector("table#economicCalendarData");
-  const rows = table.querySelectorAll("tbody tr");
-  const events = [];
-  let day = "";
-  const timeZone = getTimeZone();
-
-  rows.forEach(row => {
-      // Find the first <td> inside of <tr>
-      const firstTd = row.querySelector('td');
-
-      // Controlla se il primo <td> ha la classe "theDay"
-      if (firstTd && firstTd.classList.contains('theDay')) {
-        // Logic for the day row
-        //console.log('The row contains the "theDay" class. with date ' + day);
-        day = parseDateRow(row);
-      } else if (row.id.startsWith("eventRowId_")) {
-        // Logic for economic event
-        // console.log('The row ID starts with "eventRowId_".');
-        const event = parseEventRow(row, day, timeZone);
-        events.push(event);
-      } else {
-        //console.log('The row does not match any conditions.');
-      }
-  });
-
-  return events;
-}
-
-// Function to get the time zone from the page
-function getTimeZone() {
-  const timeZoneEl = document.querySelector("span#timeZoneGmtOffsetFormatted");
-  const timeZoneParenthesis = timeZoneEl ? timeZoneEl.textContent.trim() : null;
-  return timeZoneParenthesis ? timeZoneParenthesis.replace("(", "").replace(")", "") : null;
-}
-
-
-// For tests
-var test = false;
-var nextMin = getNextMinute();
-function getNextMinute() {
-  // Get the current date and time
-  const now = new Date();
-
-  // Add one minute to the current time
-  now.setMinutes(now.getMinutes() + 2);
-
-  // Get the hours and minutes from the updated time
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-
-  // Format the time as "hh:mm"
-  return `${hours}:${minutes}`;
-}
