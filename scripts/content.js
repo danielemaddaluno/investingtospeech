@@ -16,27 +16,16 @@
 // console.log("Economic Events:", events);
 
 // Function to handle notifications
-function notifyEvent(event, minutesLeft) {
-    // Send a message to the background script
-    chrome.runtime.sendMessage({action: "notifyEvent", event: event, minutesLeft: minutesLeft});
-}
-
-// TODO verify if a setTimeout could be more efficient
-// Function to handle event queue
-function scheduleNotifications(events) {
-  const now = new Date();
+function notifyEvents(events) {
   events.forEach(event => {
-    const secondsLeft = (event.dateTime - now)/1000;
-    if (secondsLeft <= 0 && secondsLeft >= -checkSeconds) {
-      console.log(secondsLeft);
-      notifyEvent(event,  +1);
-    }
+    chrome.runtime.sendMessage({action: "notifyEvent", event: event});
   });
 }
 
 // TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
 const checkSeconds = 15;
+let alertMinutes = [1, 5, 10, 15];
 
 function performCheck() {
   const now = new Date();
@@ -45,8 +34,22 @@ function performCheck() {
   if (seconds % checkSeconds === 0) {
       console.log(`Performing check at ${now.toLocaleTimeString()}`);
       const events = getEconomicEvents();
-      const validEvents = events.filter(event => event.dateTime); // Exclude events without dateTime
-      scheduleNotifications(validEvents);
+      const validEvents = events
+      .filter(event => event.dateTime) // Exclude events without dateTime
+      .filter(event => {
+        event.minutesLeft = null; 
+        
+        return alertMinutes.some(alertMinute => {
+          const secondsLeft = (event.dateTime - now) / 1000;
+          const alertSecondsLeft = secondsLeft - alertMinute * 60;
+          if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
+            event.minutesLeft = alertMinute;
+            return true;
+          }
+          return false;
+        });
+      });
+      notifyEvents(validEvents);
   }
 }
 
@@ -107,14 +110,15 @@ function parseEventRow(eventRow, day, timeZone) {
   const title = safeQuerySelectorTextContent(eventRow, ".event") || null;
   
   const event =  {
-      timeZone: timeZone,
-      date: day,
-      time: time,
-      dateTime: new Date(day + " " + time + " " + timeZone),
-      currency: currency,
-      country: country,
-      sentiment: sentiment,
-      title: title
+    type: "EconomicEvent",
+    timeZone: timeZone,
+    date: day,
+    time: time,
+    dateTime: new Date(day + " " + time + " " + timeZone),
+    currency: currency,
+    country: country,
+    sentiment: sentiment,
+    title: title
   };
   // console.log(event);
   
@@ -171,7 +175,7 @@ function getNextMinute() {
   const now = new Date();
 
   // Add one minute to the current time
-  now.setMinutes(now.getMinutes() + 1);
+  now.setMinutes(now.getMinutes() + 2);
 
   // Get the hours and minutes from the updated time
   const hours = now.getHours().toString().padStart(2, '0');
