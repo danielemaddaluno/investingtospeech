@@ -14,28 +14,28 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
-  chrome.storage.sync.get(['economicAlerts', 'clockStrikeAlert'], function(result) {
-      if (result.economicAlerts) {
-          result.economicAlerts.forEach(value => {
-              document.querySelector(`input[name="economic"][value="${value}"]`).checked = true;
+  chrome.storage.sync.get(['alertMinutes', 'clockStrikeAlert'], function(result) {
+      if (result.alertMinutes) {
+          result.alertMinutes.forEach(value => {
+              document.querySelector(`input[name="alertMinute"][value="${value}"]`).checked = true;
           });
       }
       if (result.clockStrikeAlert) {
-          document.querySelector(`input[name="clock"][value="${result.clockStrikeAlert}"]`).checked = true;
+          document.querySelector(`input[name="clockStrike"][value="${result.clockStrikeAlert}"]`).checked = true;
       } else {
-          document.querySelector('input[name="clock"][value="null"]').checked = true;
+          document.querySelector('input[name="clockStrike"][value="null"]').checked = true;
       }
   });
 
   // Save settings
   document.getElementById('save').addEventListener('click', function() {
-      const economicAlerts = Array.from(document.querySelectorAll('input[name="economic"]:checked'))
+      const alertMinutes = Array.from(document.querySelectorAll('input[name="alertMinute"]:checked'))
           .map(input => parseInt(input.value));
 
-      const clockStrikeAlert = document.querySelector('input[name="clock"]:checked').value;
+      const clockStrikeAlert = document.querySelector('input[name="clockStrike"]:checked').value;
 
       chrome.storage.sync.set({
-          economicAlerts: economicAlerts,
+          alertMinutes: alertMinutes,
           clockStrikeAlert: clockStrikeAlert === 'null' ? null : parseInt(clockStrikeAlert)
       }, function() {
           console.log('Settings saved');

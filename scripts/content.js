@@ -26,7 +26,6 @@ function notifyEvents(events) {
 // TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
 const checkSeconds = 15;
-let alertMinutes = [1]; //[1, 5, 10, 15];
 
 function performCheck() {
   const now = new Date();
@@ -34,13 +33,14 @@ function performCheck() {
 
   if (seconds % checkSeconds === 0) {
       console.log(`Performing check at ${now.toLocaleTimeString()}`);
+
       const events = getEconomicEvents();
       const validEvents = events
       .filter(event => event.dateTime) // Exclude events without dateTime
       .filter(event => {
         event.minutesLeft = null; 
         
-        return alertMinutes.some(alertMinute => {
+        return settings.alertMinutes.some(alertMinute => {
           const secondsLeft = (event.dateTime - now) / 1000;
           const alertSecondsLeft = secondsLeft - alertMinute * 60;
           if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
@@ -86,11 +86,72 @@ const checkingInterval = setInterval(performCheck, 1000);
 // }
 
 
-chrome.storage.sync.get(['economicAlerts', 'clockStrikeAlert'], function(result) {
-  const alertsMinutes = result.economicAlerts || [1, 5, 10, 15]; // Default if not set
-  const clockStrikeAlert = result.clockStrikeAlert || null; // Default if not set
+// =================== Settings Section ===================
+// Wrap the chrome.storage.sync.get in a Promise
+// Initialize the settings object
+let settings = {
+  alertMinutes: [1, 5, 10, 15], // Default values
+  clockStrikeAlert: 15
+};
 
-  // Use alertsMinutes and clockStrikeAlert in your logic
-  console.log(alertsMinutes);
-  console.log(clockStrikeAlert);
+// Function to update the settings
+function updateSettings(changes) {
+  for (let key in changes) {
+    if (key === 'alertMinutes' || key === 'clockStrikeAlert') {
+      settings[key] = changes[key].newValue;
+      console.log(`Updated ${key}:`, settings[key]);
+    }
+  }
+}
+
+// Listen for changes in chrome.storage.sync
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'sync') {
+    updateSettings(changes);
+  }
 });
+
+// Initial load of settings
+chrome.storage.sync.get(['alertMinutes', 'clockStrikeAlert'], (result) => {
+  settings = result;
+  console.log('Initial settings loaded:', settings);
+});
+
+// 
+// settings.alertsMinutes
+// settings.clockStrikeAlert
+// =========================================================
+
+
+// =================== Tests ===================
+var test = true;
+var nextMin = getNextMinute();
+function getNextMinute() {
+  // Get the current date and time
+  const now = new Date();
+
+  // Add one minute to the current time
+  now.setMinutes(now.getMinutes() + 2);
+
+  // Get the hours and minutes from the updated time
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+
+  // Format the time as "hh:mm"
+  return `${hours}:${minutes}`;
+}
+
+if(test){
+  window.addEventListener('load', () => {
+    //console.log(new Date("Tuesday, August 27, 2024 11:51 GMT-0500").toUTCString())
+
+    const events = getEconomicEvents();
+
+    console.log("Economic Events:");
+    console.log(events);
+
+    console.log("Clock Strike Events:");
+    console.log([]);
+  });
+}
+// =============================================

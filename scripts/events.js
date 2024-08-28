@@ -58,7 +58,7 @@ function parseDateRow(dateRow) {
 
 
 // =================== Economic Event Parsing ===================
-function parseEventRow(eventRow, day, timeZone, test = false, nextMin = null) {
+function parseEventRow(eventRow, day, timeZone) {
   const time = extractTime(eventRow);
   const dateTime = new Date(`${day} ${time} ${timeZone}`);
   const currency = extractCurrency(eventRow);
@@ -107,35 +107,3 @@ function extractTitle(eventRow) {
   return titleElement ? titleElement.textContent.trim() : null;
 }
 // ==============================================================
-
-
-// =================== Tests ===================
-var test = false;
-var nextMin = getNextMinute();
-function getNextMinute() {
-  // Get the current date and time
-  const now = new Date();
-
-  // Add one minute to the current time
-  now.setMinutes(now.getMinutes() + 2);
-
-  // Get the hours and minutes from the updated time
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-
-  // Format the time as "hh:mm"
-  return `${hours}:${minutes}`;
-}
-
-if(test){
-  //console.log(new Date("Tuesday, August 27, 2024 11:51 GMT-0500").toUTCString())
-
-  const events = getEconomicEvents();
-
-  console.log("Economic Events:");
-  console.log(events);
-
-  console.log("Clock Strike Events:");
-  console.log([]);
-}
-// =============================================
