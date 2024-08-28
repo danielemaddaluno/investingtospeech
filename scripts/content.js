@@ -35,27 +35,24 @@ function scheduleNotifications(events) {
 }
 
 // TODO find a more efficient way than polling
-// Set the interval for checking (in milliseconds)
+// Set the interval for checking for new upcoming news
 const checkSeconds = 15;
-const checkInterval = checkSeconds * 1000;
 
-// Function to perform the check
 function performCheck() {
-    const events = getEconomicEvents();
-    const validEvents = events.filter(event => event.dateTime); // Exclude events without dateTime
-    scheduleNotifications(validEvents);
+  const now = new Date();
+  const seconds = now.getSeconds();
+
+  if (seconds % checkSeconds === 0) {
+      console.log(`Performing check at ${now.toLocaleTimeString()}`);
+      const events = getEconomicEvents();
+      const validEvents = events.filter(event => event.dateTime); // Exclude events without dateTime
+      scheduleNotifications(validEvents);
+  }
 }
 
-// Start the periodic checking
-const timerId = setInterval(performCheck, checkInterval);
+// Optional: Function to stop checking if needed --> clearInterval(checkingInterval);
+const checkingInterval = setInterval(performCheck, 1000);
 
-// Optional: Function to stop checking if needed
-function stopChecking() {
-    clearInterval(timerId);
-}
-
-// Perform an initial check immediately
-performCheck();
 
 
 // const article = document.querySelector('#leftColumn');
@@ -93,10 +90,6 @@ function parseSentiment(sentimentCell) {
   return starIcons.length > 0 ? starIcons.length : null;
 }
 
-function parseDateRow(dateRow) {
-  return dateRow.textContent.trim();
-}
-
 function safeQuerySelectorTextContent(element, selector) {
   const selectedElement = element.querySelector(selector);
   return selectedElement ? selectedElement.textContent.trim() : null;
@@ -128,6 +121,9 @@ function parseEventRow(eventRow, day, timeZone) {
   return event;
 }
 
+function parseDateRow(dateRow) {
+  return dateRow.textContent.trim();
+}
 
 // Function to get the economic events from the table
 function getEconomicEvents() {
