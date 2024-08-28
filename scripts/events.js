@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 // Function to get the time zone from the page
 function getTimeZone() {
   const timeZoneEl = document.querySelector("span#timeZoneGmtOffsetFormatted");
@@ -49,10 +50,12 @@ function getEconomicEvents() {
   return events;
 }
 
-// Function to extract the date from the date row
+// =================== Function to extract the date from the date row ===================
 function parseDateRow(dateRow) {
   return dateRow.textContent.trim();
 }
+// ======================================================================================
+
 
 // =================== Economic Event Parsing ===================
 function parseEventRow(eventRow, day, timeZone, test = false, nextMin = null) {
@@ -103,7 +106,7 @@ function extractTitle(eventRow) {
   const titleElement = eventRow.querySelector(".event");
   return titleElement ? titleElement.textContent.trim() : null;
 }
-// ============================================================
+// ==============================================================
 
 
 // =================== Tests ===================
@@ -135,4 +138,4 @@ if(test){
   console.log("Clock Strike Events:");
   console.log([]);
 }
-// ============================================================
+// =============================================

@@ -15,6 +15,7 @@
 // const events = getEconomicEvents();
 // console.log("Economic Events:", events);
 
+
 // Function to handle notifications
 function notifyEvents(events) {
   events.forEach(event => {
@@ -83,3 +84,13 @@ const checkingInterval = setInterval(performCheck, 1000);
 //   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
 //   (date ?? heading).insertAdjacentElement('afterend', badge);
 // }
+
+
+chrome.storage.sync.get(['economicAlerts', 'clockStrikeAlert'], function(result) {
+  const alertsMinutes = result.economicAlerts || [1, 5, 10, 15]; // Default if not set
+  const clockStrikeAlert = result.clockStrikeAlert || null; // Default if not set
+
+  // Use alertsMinutes and clockStrikeAlert in your logic
+  console.log(alertsMinutes);
+  console.log(clockStrikeAlert);
+});

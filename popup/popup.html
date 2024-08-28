@@ -1,0 +1,48 @@
+<!--
+Copyright 2024 Daniele Maddaluno
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./popup.css" />
+    <title>Event Alert Settings</title>
+  </head>
+  <body>
+    <h1>Event Alert Settings</h1>
+    
+    <div class="option-group">
+        <h3>Economic Event Alerts (minutes)</h3>
+        <label><input type="checkbox" name="economic" value="1"> 1</label>
+        <label><input type="checkbox" name="economic" value="5"> 5</label>
+        <label><input type="checkbox" name="economic" value="10"> 10</label>
+        <label><input type="checkbox" name="economic" value="15"> 15</label>
+    </div>
+    <br/>
+    <div class="option-group">
+        <h3>Clock Strike Alerts (minutes)</h3>
+        <label><input type="radio" name="clock" value="null"> Off</label>
+        <label><input type="radio" name="clock" value="15"> 15</label>
+        <label><input type="radio" name="clock" value="30"> 30</label>
+        <label><input type="radio" name="clock" value="60"> 60</label>
+    </div>
+    <br/>
+    <button id="save">Save Settings</button>
+    <br/>
+    <script src="./popup.js" type="module"></script>
+  </body>
+</html>
