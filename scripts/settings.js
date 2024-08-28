@@ -15,13 +15,13 @@
 // Initialize the settings object accessible from other scripts
 let settings = {
   alertMinutes: [1, 5, 10, 15], // Default values
-  clockStrikeAlert: 15          // Default value
+  clockStrike: 15          // Default value
 };
 
 // Function to update the settings
 function updateSettings(changes) {
   for (let key in changes) {
-    if (key === 'alertMinutes' || key === 'clockStrikeAlert') {
+    if (key === 'alertMinutes' || key === 'clockStrike') {
       settings[key] = changes[key].newValue;
       console.log(`Updated ${key}:`, settings[key]);
     }
@@ -36,7 +36,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 // Initial load of settings
-chrome.storage.sync.get(['alertMinutes', 'clockStrikeAlert'], (result) => {
+chrome.storage.sync.get(['alertMinutes', 'clockStrike'], (result) => {
   settings = result;
   console.log('Initial settings loaded:', settings);
 });

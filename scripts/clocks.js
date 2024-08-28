@@ -13,33 +13,30 @@
 // limitations under the License.
 
 
-// =================== Clock Strike Events ===================
+// =================== Find Next Clock Strike Event ===================
 function getClockStrikeEvents() {
-  return null;
+  return (!settings || !settings.clockStrike) ? [] : [getClockStrikeEvent(settings.clockStrike)];
 }
-// ===========================================================
 
+function getClockStrikeEvent(clockStrike) {
+  return {
+      type: "ClockStrikeEvent",
+      dateTime: getNextRoundDate(clockStrike)
+  };
+}
 
-// =================== Clock Strike Event ===================
-function getClockStrikeEvent() {
-  // const time = extractTime(eventRow);
-  // const dateTime = new Date(`${day} ${time} ${timeZone}`);
-  // const currency = extractCurrency(eventRow);
-  // const country = extractCountry(eventRow);
-  // const sentiment = extractSentiment(eventRow);
-  // const title = extractTitle(eventRow);
+function getNextRoundDate(clockStrike){
+  let now = new Date();
+  const currentMinutes = now.getMinutes();
   
-  // return {
-  //   type: "ClockStrikeEvent",
-  //   timeZone: timeZone,
-  //   date: day,
-  //   time: time,
-  //   dateTime: dateTime,
-  //   currency: currency,
-  //   country: country,
-  //   sentiment: sentiment,
-  //   title: title
-  // };
-  return null;
+  // Calculate how many minutes need to be added to make it divisible by clockStrike
+  const minutesToAdd = clockStrike - (currentMinutes % clockStrike);
+  
+  // Create a new Date object for the next occurrence
+  const SECOND_MILLIS = 60000;
+  now.setMinutes(currentMinutes, 0, 0); // puts seconds and milliseconds to zero 
+  const nextDate = new Date(now.getTime() + minutesToAdd * SECOND_MILLIS);
+  
+  return nextDate;
 }
-// ==========================================================
+// ====================================================================

@@ -14,14 +14,14 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
-  chrome.storage.sync.get(['alertMinutes', 'clockStrikeAlert'], function(result) {
+  chrome.storage.sync.get(['alertMinutes', 'clockStrike'], function(result) {
       if (result.alertMinutes) {
           result.alertMinutes.forEach(value => {
               document.querySelector(`input[name="alertMinute"][value="${value}"]`).checked = true;
           });
       }
-      if (result.clockStrikeAlert) {
-          document.querySelector(`input[name="clockStrike"][value="${result.clockStrikeAlert}"]`).checked = true;
+      if (result.clockStrike) {
+          document.querySelector(`input[name="clockStrike"][value="${result.clockStrike}"]`).checked = true;
       } else {
           document.querySelector('input[name="clockStrike"][value="null"]').checked = true;
       }
@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const alertMinutes = Array.from(document.querySelectorAll('input[name="alertMinute"]:checked'))
           .map(input => parseInt(input.value));
 
-      const clockStrikeAlert = document.querySelector('input[name="clockStrike"]:checked').value;
+      const clockStrike = document.querySelector('input[name="clockStrike"]:checked').value;
 
       chrome.storage.sync.set({
           alertMinutes: alertMinutes,
-          clockStrikeAlert: clockStrikeAlert === 'null' ? null : parseInt(clockStrikeAlert)
+          clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
       }, function() {
           console.log('Settings saved');
           // Optionally, show a "Saved" message to the user

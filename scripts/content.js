@@ -34,7 +34,10 @@ function performCheck() {
   if (seconds % checkSeconds === 0) {
       console.log(`Performing check at ${now.toLocaleTimeString()}`);
 
-      const events = getEconomicEvents();
+      const economicEvents = getEconomicEvents();
+      const clockEvents = getClockStrikeEvents();
+      const events = economicEvents.concat(clockEvents);
+
       const validEvents = events
       .filter(event => event.dateTime) // Exclude events without dateTime
       .filter(event => {
