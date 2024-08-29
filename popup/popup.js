@@ -44,18 +44,15 @@ function saveSettings() {
     clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
   }, function() {
     console.log('Settings saved');
-    // Optionally, show a temporary "Saved" message to the user
     showSavedMessage();
   });
 }
 
 function showSavedMessage() {
-  const savedMsg = document.createElement('div');
-  savedMsg.textContent = 'Settings saved!';
-  savedMsg.className = 'saved-message';
-  document.body.appendChild(savedMsg);
+  const overlay = document.getElementById('overlay');
+  overlay.style.display = 'flex';
 
   setTimeout(() => {
-    savedMsg.remove();
-  }, 2000);
+    overlay.style.display = 'none';
+  }, 750);
 }
