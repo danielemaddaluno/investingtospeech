@@ -15,31 +15,47 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
   chrome.storage.sync.get(['alertTriggers', 'clockStrike'], function(result) {
-      if (result.alertTriggers) {
-          result.alertTriggers.forEach(value => {
-              document.querySelector(`input[name="alertTrigger"][value="${value}"]`).checked = true;
-          });
-      }
-      if (result.clockStrike) {
-          document.querySelector(`input[name="clockStrike"][value="${result.clockStrike}"]`).checked = true;
-      } else {
-          document.querySelector('input[name="clockStrike"][value="null"]').checked = true;
-      }
+    if (result.alertTriggers) {
+      result.alertTriggers.forEach(value => {
+        document.querySelector(`input[name="alertTrigger"][value="${value}"]`).checked = true;
+      });
+    }
+    if (result.clockStrike) {
+      document.querySelector(`input[name="clockStrike"][value="${result.clockStrike}"]`).checked = true;
+    } else {
+      document.querySelector('input[name="clockStrike"][value="null"]').checked = true;
+    }
   });
 
-  // Save settings
-  document.getElementById('save').addEventListener('click', function() {
-      const alertTriggers = Array.from(document.querySelectorAll('input[name="alertTrigger"]:checked'))
-          .map(input => parseInt(input.value));
-
-      const clockStrike = document.querySelector('input[name="clockStrike"]:checked').value;
-
-      chrome.storage.sync.set({
-          alertTriggers: alertTriggers,
-          clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
-      }, function() {
-          console.log('Settings saved');
-          // Optionally, show a "Saved" message to the user
-      });
+  // Add event listeners to all checkboxes and radio buttons
+  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+    input.addEventListener('change', saveSettings);
   });
 });
+
+function saveSettings() {
+  const alertTriggers = Array.from(document.querySelectorAll('input[name="alertTrigger"]:checked'))
+    .map(input => parseInt(input.value));
+
+  const clockStrike = document.querySelector('input[name="clockStrike"]:checked').value;
+
+  chrome.storage.sync.set({
+    alertTriggers: alertTriggers,
+    clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
+  }, function() {
+    console.log('Settings saved');
+    // Optionally, show a temporary "Saved" message to the user
+    showSavedMessage();
+  });
+}
+
+function showSavedMessage() {
+  const savedMsg = document.createElement('div');
+  savedMsg.textContent = 'Settings saved!';
+  savedMsg.className = 'saved-message';
+  document.body.appendChild(savedMsg);
+
+  setTimeout(() => {
+    savedMsg.remove();
+  }, 2000);
+}
