@@ -12,6 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const targetUrl = 'https://www.investing.com/economic-calendar/';
+
+chrome.action.onClicked.addListener(tab => {
+  // Check if the current tab is the target URL
+  if (tab.url === targetUrl) {
+    // // Create a popup dynamically
+    // chrome.windows.create({
+    //   url: chrome.runtime.getURL("./popup/popup.html"), // Popup HTML file
+    //   type: "popup",                           // This creates a frameless, toolbar-less window
+    //   width: 320,                              // Set width similar to a typical popup
+    //   height: 400,                             // Set height similar to a typical popup
+    //   top: 100,                                // Adjust to position near the extension icon
+    //   left: 100                                // Adjust to position near the extension icon
+    // });
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("./popup/popup.html")
+    });
+  } else {
+    // If not on the target URL, open the target URL in a new tab
+    chrome.tabs.create({ url: targetUrl });
+  }
+});
+
 function timeText(secondsLeft) {
   if(secondsLeft % 60 == 0){
     const minutesLeft = secondsLeft / 60;
@@ -19,7 +42,6 @@ function timeText(secondsLeft) {
   } else {
     return `${secondsLeft} ${secondsLeft > 1 ? "seconds" : "second"}`;
   }
-  return ;
 }
 
 function starsText(stars) {

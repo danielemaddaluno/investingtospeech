@@ -4,6 +4,8 @@
   "version": "1.0",
   "description": "Add a TTS to notify you minutes before events or clock strikes",
   "permissions": [
+    "activeTab",
+    "tabs",
     "storage",
     "tts"
   ],
@@ -14,6 +16,7 @@
     "128": "images/icon-128.png"
   },
   "action": {
+    // This must be empty is you want to use the chrome.action.onClicked inside the background.js
     "default_popup": "popup/popup.html"
   },
   "content_scripts": [
