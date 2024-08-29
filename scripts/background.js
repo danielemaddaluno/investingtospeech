@@ -12,8 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function minutesText(minutesLeft) {
-  return minutesLeft > 1 ? "minutes" : "minute";
+function timeText(secondsLeft) {
+  if(secondsLeft % 60 == 0){
+    const minutesLeft = secondsLeft / 60;
+    return `${minutesLeft} ${minutesLeft > 1 ? "minutes" : "minute"}`;
+  } else {
+    return `${secondsLeft} ${secondsLeft > 1 ? "seconds" : "second"}`;
+  }
+  return ;
 }
 
 function starsText(stars) {
@@ -22,15 +28,15 @@ function starsText(stars) {
 
 function getTextToRead(event) {
   if (event.type === "EconomicEvent") {
-    const minutesLeftText = `${event.minutesLeft} ${minutesText(event.minutesLeft)} to the next ${event.country} event. `;
+    const timeToText = `${timeText(event.secondsLeft)} to the next ${event.country} event. `;
     const sentimentText = `${event.sentiment} ${starsText(event.sentiment)}. `;
     const titleText = `${event.title}. `;
-    return minutesLeftText + sentimentText + titleText;
+    return timeToText + sentimentText + titleText;
   } else if (event.type === "ClockStrikeEvent") {
-    const eventName = "Clock strike event. ";
-    const formattedTime = event.dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-    const minutesLeftText = `${event.minutesLeft} ${minutesText(event.minutesLeft)} to the ${formattedTime}`;
-    return eventName + minutesLeftText;
+    const eventName = "Clock strike event: ";
+    const formattedTime = new Date(event.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const timeToText = `${timeText(event.secondsLeft)} to ${formattedTime}`;
+    return eventName + timeToText;
   } else {
     return "Unknown event type.";
   }

@@ -25,32 +25,37 @@ function notifyEvents(events) {
 
 // TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
-const checkSeconds = 15;
-let alertMinutes = [1]; //[1, 5, 10, 15];
+const checkSeconds = 10;
 
 function performCheck() {
+  if(!settings || !settings.alertTriggers || settings.alertTriggers.length === 0) return;
+
   const now = new Date();
   const seconds = now.getSeconds();
 
   if (seconds % checkSeconds === 0) {
-      console.log(`Performing check at ${now.toLocaleTimeString()}`);
-      const events = getEconomicEvents();
-      const validEvents = events
+    console.log(`Performing check at ${now.toLocaleTimeString()}`);
+
+    const economicEvents = getEconomicEvents();
+    const clockEvents = getClockStrikeEvents();
+    const events = economicEvents.concat(clockEvents);
+
+    const validEvents = events
       .filter(event => event.dateTime) // Exclude events without dateTime
       .filter(event => {
-        event.minutesLeft = null; 
+        event.secondsLeft = null; 
         
-        return alertMinutes.some(alertMinute => {
+        return settings.alertTriggers.some(alertTrigger => {
           const secondsLeft = (event.dateTime - now) / 1000;
-          const alertSecondsLeft = secondsLeft - alertMinute * 60;
+          const alertSecondsLeft = secondsLeft - alertTrigger;
           if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
-            event.minutesLeft = alertMinute;
+            event.secondsLeft = alertTrigger;
             return true;
           }
           return false;
         });
       });
-      notifyEvents(validEvents);
+    notifyEvents(validEvents);
   }
 }
 
@@ -84,13 +89,3 @@ const checkingInterval = setInterval(performCheck, 1000);
 //   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
 //   (date ?? heading).insertAdjacentElement('afterend', badge);
 // }
-
-
-chrome.storage.sync.get(['economicAlerts', 'clockStrikeAlert'], function(result) {
-  const alertsMinutes = result.economicAlerts || [1, 5, 10, 15]; // Default if not set
-  const clockStrikeAlert = result.clockStrikeAlert || null; // Default if not set
-
-  // Use alertsMinutes and clockStrikeAlert in your logic
-  console.log(alertsMinutes);
-  console.log(clockStrikeAlert);
-});

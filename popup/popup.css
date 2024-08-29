@@ -15,49 +15,81 @@ limitations under the License.
 */
 
 body {
-  width: 20rem;
-}
-
-ul {
-  list-style-type: none;
-  padding-inline-start: 0;
-  margin: 1rem 0;
-}
-
-li {
-  padding: 0.25rem;
-}
-li:nth-child(odd) {
-  background: #80808030;
-}
-li:nth-child(even) {
-  background: #ffffff;
-}
-
-h3,
-p {
-  margin: 0;
-}
-
-
-
-/*
-body {
   width: 300px;
-  padding: 10px;
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 15px;
+  background-color: #f0f0f0;
 }
-h2 {
-  margin-top: 0;
-}
-.option-group {
+
+h1, h2, h3 {
+  text-align: center;
   margin-bottom: 15px;
 }
+
+.option-group {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkbox-group, .radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
 label {
-  display: block;
-  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-button {
+
+label:hover {
+  background-color: #d0d0d0;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 5px;
+}
+
+#saveMessage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.message-content {
+  background-color: #4CAF50;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.message-content p {
+  margin-top: 12px;
+}
+
+.save-icon {
+  font-size: 32px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
 }
-*/

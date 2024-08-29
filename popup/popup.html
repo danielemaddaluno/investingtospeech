@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -23,26 +24,42 @@ limitations under the License.
     <title>Event Alert Settings</title>
   </head>
   <body>
-    <h1>Event Alert Settings</h1>
-    
-    <div class="option-group">
-        <h3>Economic Event Alerts (minutes)</h3>
-        <label><input type="checkbox" name="economic" value="1"> 1</label>
-        <label><input type="checkbox" name="economic" value="5"> 5</label>
-        <label><input type="checkbox" name="economic" value="10"> 10</label>
-        <label><input type="checkbox" name="economic" value="15"> 15</label>
+    <div id="content">
+      <h1>Events Alert Settings</h1>
+      
+      <div class="option-group">
+        <h2>Voice alerts will be triggered</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="alertTrigger" value="10"> 10 sec</label>
+          <label><input type="checkbox" name="alertTrigger" value="30"> 30 sec</label>
+          <label><input type="checkbox" name="alertTrigger" value="60"> 1 min</label>
+          <label><input type="checkbox" name="alertTrigger" value="300"> 5 min</label>
+          <label><input type="checkbox" name="alertTrigger" value="600"> 10 min</label>
+          <label><input type="checkbox" name="alertTrigger" value="900"> 15 min</label>
+        </div>
+        <h2>before the time of the event</h2>
+      </div>
+
+      <div class="option-group">
+        <h2>Considered clock strike events</h2>
+        <div class="radio-group">
+          <label><input type="radio" name="clockStrike" value="null"> Off</label>
+          <label><input type="radio" name="clockStrike" value="5"> 5 min</label>
+          <label><input type="radio" name="clockStrike" value="10"> 10 min</label>
+          <label><input type="radio" name="clockStrike" value="15"> 15 min</label>
+          <label><input type="radio" name="clockStrike" value="30"> 30 min</label>
+          <label><input type="radio" name="clockStrike" value="60"> 60 min</label>
+        </div>
+      </div>
     </div>
-    <br/>
-    <div class="option-group">
-        <h3>Clock Strike Alerts (minutes)</h3>
-        <label><input type="radio" name="clock" value="null"> Off</label>
-        <label><input type="radio" name="clock" value="15"> 15</label>
-        <label><input type="radio" name="clock" value="30"> 30</label>
-        <label><input type="radio" name="clock" value="60"> 60</label>
+
+    <div id="saveMessage" style="display: none;">
+      <div class="message-content">
+        <span class="save-icon">💾</span>
+        <p>Settings saved!</p>
+      </div>
     </div>
-    <br/>
-    <button id="save">Save Settings</button>
-    <br/>
+
     <script src="./popup.js" type="module"></script>
   </body>
 </html>
