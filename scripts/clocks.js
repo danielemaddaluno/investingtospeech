@@ -14,37 +14,27 @@
 
 
 // =================== ⏱️ Find Strike Events ===================
-const HOURS = 12;
-const MINUTES = 60;
 const SECONDS = 60;
 const MILLIS = 1000;
-const SECOND_MILLIS = SECONDS * MILLIS;
-const DAY_MILLIS = HOURS * MINUTES * SECONDS * MILLIS;
 // const settings = {clockStrike: 2, alertTriggers: [60, 300]};
 // console.log(getClockStrikeEvents());
-let clockStrikeEvents = null;
 
-function getClockStrikeEvents(){
-  if(clockStrikeEvents == null) updateClockStrikeEvents();
-  return clockStrikeEvents;
-}
-
-function updateClockStrikeEvents(){
-  clockStrikeEvents = computeClockStrikeEvents();
-}
-
-function computeClockStrikeEvents() {
+function getClockStrikeEvents() {
   if(!settings || !settings.clockStrike) return [];
+  if(!settings || !settings.alertTriggers || settings.alertTriggers.length === 0) return [];
 
-  let i = -1;
+  let i = 0;
   let vector = [];
+  const maxAlertTrigger = Math.max(...settings.alertTriggers);
+
   let now = new Date();
-  let tomorrow = new Date(now.getTime() + DAY_MILLIS);
+  let end = new Date(now.getTime() + secondsToMillis(maxAlertTrigger));
   let cse;
+
   do{
     cse = getClockStrikeEvent(settings.clockStrike, i++);
     vector.push(cse);
-  } while(cse.dateTime.getTime() < tomorrow.getTime())
+  } while(cse.dateTime.getTime() <= end.getTime())
   
   return vector;
 }
@@ -63,8 +53,16 @@ function getRoundDateTime(clockStrike, shift = 0){
   
   // Calculate how many minutes need to be added to make it divisible by clockStrike
   const minutesToAdd = clockStrike - (currentMinutes % clockStrike);
-  const nextDate = new Date(now.getTime() + minutesToAdd * SECOND_MILLIS + shift * clockStrike * SECOND_MILLIS);
+  const nextDate = new Date(now.getTime() + minutesToMillis(minutesToAdd) + shift * minutesToMillis(clockStrike));
   
   return nextDate;
+}
+
+function secondsToMillis(seconds){
+  return seconds * MILLIS;
+}
+
+function minutesToMillis(minutes){
+  return minutes * SECONDS * MILLIS;
 }
 // =============================================================
