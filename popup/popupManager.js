@@ -36,7 +36,16 @@ function showRedirectMessage() {
 
 function setupRedirectListener() {
   document.getElementById('redirectMessageContent').addEventListener('click', function() {
-    chrome.tabs.create({ url: TARGET_URL });
+    chrome.tabs.query({url: TARGET_URL}, function(tabs) {
+      if (tabs.length > 0) {
+        // If a tab with the target URL exists, switch to it
+        chrome.tabs.update(tabs[0].id, {active: true});
+        chrome.windows.update(tabs[0].windowId, {focused: true});
+      } else {
+        // If no tab with the target URL exists, create a new one
+        chrome.tabs.create({ url: TARGET_URL });
+      }
+    });
   });
 }
 

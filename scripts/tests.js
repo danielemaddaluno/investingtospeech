@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var test = false;
-var nextMin = getNextMinute();
+const test = false;
+const nextMin = getNextMinute();
 function getNextMinute() {
   // Get the current date and time
   const now = new Date();

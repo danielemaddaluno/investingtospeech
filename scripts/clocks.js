@@ -13,30 +13,56 @@
 // limitations under the License.
 
 
-// =================== Find Next Clock Strike Event ===================
+// =================== ⏱️ Find Strike Events ===================
+const SECONDS = 60;
+const MILLIS = 1000;
+// const settings = {clockStrike: 2, alertTriggers: [60, 300]};
+// console.log(getClockStrikeEvents());
+
 function getClockStrikeEvents() {
-  return (!settings || !settings.clockStrike) ? [] : [getClockStrikeEvent(settings.clockStrike)];
+  if(!settings || !settings.clockStrike) return [];
+  if(!settings || !settings.alertTriggers || settings.alertTriggers.length === 0) return [];
+
+  let i = 0;
+  let vector = [];
+  const maxAlertTrigger = Math.max(...settings.alertTriggers);
+
+  let now = new Date();
+  let end = new Date(now.getTime() + secondsToMillis(maxAlertTrigger));
+  let cse;
+
+  do{
+    cse = getClockStrikeEvent(settings.clockStrike, i++);
+    vector.push(cse);
+  } while(cse.dateTime.getTime() <= end.getTime())
+  
+  return vector;
 }
 
-function getClockStrikeEvent(clockStrike) {
+function getClockStrikeEvent(clockStrike, shift = 0) {
   return {
       type: "ClockStrikeEvent",
-      dateTime: getNextRoundDate(clockStrike)
+      dateTime: getRoundDateTime(clockStrike, shift)
   };
 }
 
-function getNextRoundDate(clockStrike){
+function getRoundDateTime(clockStrike, shift = 0){
   let now = new Date();
   const currentMinutes = now.getMinutes();
+  now.setMinutes(currentMinutes, 0, 0); // remove seconds and milliseconds
   
   // Calculate how many minutes need to be added to make it divisible by clockStrike
   const minutesToAdd = clockStrike - (currentMinutes % clockStrike);
-  
-  // Create a new Date object for the next occurrence
-  const SECOND_MILLIS = 60000;
-  now.setMinutes(currentMinutes, 0, 0); // puts seconds and milliseconds to zero 
-  const nextDate = new Date(now.getTime() + minutesToAdd * SECOND_MILLIS);
+  const nextDate = new Date(now.getTime() + minutesToMillis(minutesToAdd) + shift * minutesToMillis(clockStrike));
   
   return nextDate;
 }
-// ====================================================================
+
+function secondsToMillis(seconds){
+  return seconds * MILLIS;
+}
+
+function minutesToMillis(minutes){
+  return minutes * SECONDS * MILLIS;
+}
+// =============================================================
