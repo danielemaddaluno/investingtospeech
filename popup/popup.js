@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { checkCurrentTab, setupRedirectListener } from './popupManager.js';
+
 let saveTimeout;
 const SAVE_DELAY = 1500; // millis of delay, adjust as needed
 
 document.addEventListener('DOMContentLoaded', function() {
+  checkCurrentTab();
+  setupRedirectListener();
+
   // Load saved settings
   chrome.storage.sync.get(['alertTriggers', 'clockStrike'], function(result) {
     if (result.alertTriggers) {
@@ -61,5 +66,5 @@ function showSaveMessage() {
   saveMessage.style.display = 'flex';
   setTimeout(() => {
     saveMessage.style.display = 'none';
-  }, 2000);
+  }, 1500);
 }
