@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+let saveTimeout;
+const SAVE_DELAY = 3000; // 3 seconds delay, adjust as needed
+
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
   chrome.storage.sync.get(['alertTriggers', 'clockStrike'], function(result) {
@@ -27,11 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Add event listeners to all checkboxes and radio buttons
-  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-    input.addEventListener('change', saveSettings);
+  // Add event listeners for debounced auto-save
+  document.querySelectorAll('input[name="alertTrigger"], input[name="clockStrike"]').forEach(input => {
+    input.addEventListener('change', debounceSaveSettings);
   });
 });
+
+function debounceSaveSettings() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(saveSettings, SAVE_DELAY);
+}
 
 function saveSettings() {
   const alertTriggers = Array.from(document.querySelectorAll('input[name="alertTrigger"]:checked'))
@@ -44,15 +52,14 @@ function saveSettings() {
     clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
   }, function() {
     console.log('Settings saved');
-    showSavedMessage();
+    showSaveMessage();
   });
 }
 
-function showSavedMessage() {
-  const overlay = document.getElementById('overlay');
-  overlay.style.display = 'flex';
-
+function showSaveMessage() {
+  const saveMessage = document.getElementById('saveMessage');
+  saveMessage.style.display = 'flex';
   setTimeout(() => {
-    overlay.style.display = 'none';
-  }, 750);
+    saveMessage.style.display = 'none';
+  }, 2000);
 }

@@ -24,9 +24,10 @@ limitations under the License.
     <title>Event Alert Settings</title>
   </head>
   <body>
-    <h1>Events Alert Settings</h1>
-    
-    <div class="option-group">
+    <div id="content">
+      <h1>Events Alert Settings</h1>
+      
+      <div class="option-group">
         <h3>Voice alerts will be triggered</h3>
         <div class="checkbox-group">
           <label><input type="checkbox" name="alertTrigger" value="10"> 10 sec</label>
@@ -37,9 +38,9 @@ limitations under the License.
           <label><input type="checkbox" name="alertTrigger" value="900"> 15 min</label>
         </div>
         <h3>before the time of the event</h3>
-    </div>
-    
-    <div class="option-group">
+      </div>
+
+      <div class="option-group">
         <h3>Add these Clock Strike Events to the Events list:</h3>
         <div class="radio-group">
           <label><input type="radio" name="clockStrike" value="null"> Off</label>
@@ -49,15 +50,16 @@ limitations under the License.
           <label><input type="radio" name="clockStrike" value="30"> 30 min</label>
           <label><input type="radio" name="clockStrike" value="60"> 60 min</label>
         </div>
-    </div>
-    
-    <div id="overlay" style="display: none;">
-      <div id="saved-message">
-        <span class="icon">💾</span>
-        Settings saved!
       </div>
     </div>
-    
+
+    <div id="saveMessage" style="display: none;">
+      <div class="message-content">
+        <span class="save-icon">💾</span>
+        <p>Settings saved!</p>
+      </div>
+    </div>
+
     <script src="./popup.js" type="module"></script>
   </body>
 </html>
