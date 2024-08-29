@@ -18,9 +18,11 @@
 
 // Function to handle notifications
 function notifyEvents(events) {
-  events.forEach(event => {
-    chrome.runtime.sendMessage({action: "notifyEvent", event: event});
-  });
+  if (chrome.runtime?.id) {
+    events.forEach(event => {
+      chrome.runtime.sendMessage({action: "notifyEvent", event: event});
+    });
+  }
 }
 
 // TODO find a more efficient way than polling
