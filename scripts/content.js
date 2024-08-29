@@ -41,20 +41,20 @@ function performCheck() {
     const events = economicEvents.concat(clockEvents);
 
     const validEvents = events
-    .filter(event => event.dateTime) // Exclude events without dateTime
-    .filter(event => {
-      event.secondsLeft = null; 
-      
-      return settings.alertTriggers.some(alertTrigger => {
-        const secondsLeft = (event.dateTime - now) / 1000;
-        const alertSecondsLeft = secondsLeft - alertTrigger;
-        if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
-          event.secondsLeft = alertTrigger;
-          return true;
-        }
-        return false;
+      .filter(event => event.dateTime) // Exclude events without dateTime
+      .filter(event => {
+        event.secondsLeft = null; 
+        
+        return settings.alertTriggers.some(alertTrigger => {
+          const secondsLeft = (event.dateTime - now) / 1000;
+          const alertSecondsLeft = secondsLeft - alertTrigger;
+          if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
+            event.secondsLeft = alertTrigger;
+            return true;
+          }
+          return false;
+        });
       });
-    });
     notifyEvents(validEvents);
   }
 }

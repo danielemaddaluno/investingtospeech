@@ -23,11 +23,10 @@ limitations under the License.
     <title>Event Alert Settings</title>
   </head>
   <body>
-    <h1>Event Alert Settings</h1>
+    <h1>Events Alert Settings</h1>
     
     <div class="option-group">
-        <h3>Economic Event Alerts (minutes)</h3>
-
+        <h3>Alert Trigger for Events Each:</h3>
         <!-- See checkSeconds inside content.js if you need to change here, be sure that it's a multiple of checkSeconds -->
         <label><input type="checkbox" name="alertTrigger" value="10"> 10 sec</label>
         <label><input type="checkbox" name="alertTrigger" value="30"> 30 sec</label>
@@ -38,8 +37,10 @@ limitations under the License.
     </div>
     <br/>
     <div class="option-group">
-        <h3>Clock Strike Alerts (minutes)</h3>
+        <h3>Clock Strike Events to Add</h3>
         <label><input type="radio" name="clockStrike" value="null"> Off</label>
+        <label><input type="radio" name="clockStrike" value="5"> 5 min</label>
+        <label><input type="radio" name="clockStrike" value="10"> 10 min</label>
         <label><input type="radio" name="clockStrike" value="15"> 15 min</label>
         <label><input type="radio" name="clockStrike" value="30"> 30 min</label>
         <label><input type="radio" name="clockStrike" value="60"> 60 min</label>

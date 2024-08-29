@@ -34,7 +34,7 @@ function getTextToRead(event) {
     return timeToText + sentimentText + titleText;
   } else if (event.type === "ClockStrikeEvent") {
     const eventName = "Clock strike event: ";
-    const formattedTime = event.dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const formattedTime = new Date(event.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
     const timeToText = `${timeText(event.secondsLeft)} to ${formattedTime}`;
     return eventName + timeToText;
   } else {
