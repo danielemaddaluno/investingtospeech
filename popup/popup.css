@@ -61,7 +61,7 @@ input[type="checkbox"], input[type="radio"] {
   margin-right: 5px;
 }
 
-#saveMessage {
+#saveMessage, #redirectMessage {
   position: fixed;
   top: 0;
   left: 0;
@@ -81,15 +81,24 @@ input[type="checkbox"], input[type="radio"] {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   font-size: 1.2rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .message-content p {
   margin-top: 12px;
 }
 
-.save-icon {
+.save-icon, .link-icon {
   font-size: 32px;
   margin-top: 10px;
   margin-bottom: 10px;
   display: inline-block;
+}
+
+#redirectMessage .message-content {
+  background-color: #2196F3;
+}
+
+#redirectMessage .message-content:hover {
+  background-color: #1976D2;
 }

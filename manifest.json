@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Add a TTS to notify you minutes before events or clock strikes",
   "permissions": [
+    "activeTab",
     "storage",
     "tts"
   ],
