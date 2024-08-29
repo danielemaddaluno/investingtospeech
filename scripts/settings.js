@@ -25,6 +25,11 @@ function updateSettings(changes) {
       settings[key] = changes[key].newValue;
       console.log(`Updated ${key}:`, settings[key]);
     }
+
+    // Recompute clock strike events
+    if(key === 'clockStrike'){
+      updateClockStrikeEvents();
+    }
   }
 }
 

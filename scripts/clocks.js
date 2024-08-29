@@ -14,22 +14,49 @@
 
 
 // =================== ⏱️ Find Strike Events ===================
-const SECOND_MILLIS = 60000;
-// const settings = {clockStrike: 15};
+const HOURS = 12;
+const MINUTES = 60;
+const SECONDS = 60;
+const MILLIS = 1000;
+const SECOND_MILLIS = SECONDS * MILLIS;
+const DAY_MILLIS = HOURS * MINUTES * SECONDS * MILLIS;
+// const settings = {clockStrike: 2, alertTriggers: [60, 300]};
 // console.log(getClockStrikeEvents());
+let clockStrikeEvents = null;
 
-function getClockStrikeEvents() {
-  return (!settings || !settings.clockStrike) ? [] : [getClockStrikeEvent(settings.clockStrike, -1), getClockStrikeEvent(settings.clockStrike, 0), getClockStrikeEvent(settings.clockStrike, 1)];
+function getClockStrikeEvents(){
+  if(clockStrikeEvents == null) updateClockStrikeEvents();
+  return clockStrikeEvents;
+}
+
+function updateClockStrikeEvents(){
+  clockStrikeEvents = computeClockStrikeEvents();
+}
+
+function computeClockStrikeEvents() {
+  if(!settings || !settings.clockStrike) return [];
+
+  let i = -1;
+  let vector = [];
+  let now = new Date();
+  let tomorrow = new Date(now.getTime() + DAY_MILLIS);
+  let cse;
+  do{
+    cse = getClockStrikeEvent(settings.clockStrike, i++);
+    vector.push(cse);
+  } while(cse.dateTime.getTime() < tomorrow.getTime())
+  
+  return vector;
 }
 
 function getClockStrikeEvent(clockStrike, shift = 0) {
   return {
       type: "ClockStrikeEvent",
-      dateTime: getNextRoundDate(clockStrike, shift)
+      dateTime: getRoundDateTime(clockStrike, shift)
   };
 }
 
-function getNextRoundDate(clockStrike, shift = 0){
+function getRoundDateTime(clockStrike, shift = 0){
   let now = new Date();
   const currentMinutes = now.getMinutes();
   now.setMinutes(currentMinutes, 0, 0); // remove seconds and milliseconds
