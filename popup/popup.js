@@ -13,7 +13,7 @@
 // limitations under the License.
 
 let saveTimeout;
-const SAVE_DELAY = 3000; // 3 seconds delay, adjust as needed
+const SAVE_DELAY = 1500; // millis of delay, adjust as needed
 
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
