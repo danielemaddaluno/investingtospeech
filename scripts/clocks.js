@@ -13,30 +13,31 @@
 // limitations under the License.
 
 
-// =================== Find Next Clock Strike Event ===================
+// =================== ⏱️ Find Strike Events ===================
+const SECOND_MILLIS = 60000;
+// const settings = {clockStrike: 15};
+// console.log(getClockStrikeEvents());
+
 function getClockStrikeEvents() {
-  return (!settings || !settings.clockStrike) ? [] : [getClockStrikeEvent(settings.clockStrike)];
+  return (!settings || !settings.clockStrike) ? [] : [getClockStrikeEvent(settings.clockStrike, -1), getClockStrikeEvent(settings.clockStrike, 0), getClockStrikeEvent(settings.clockStrike, 1)];
 }
 
-function getClockStrikeEvent(clockStrike) {
+function getClockStrikeEvent(clockStrike, shift = 0) {
   return {
       type: "ClockStrikeEvent",
-      dateTime: getNextRoundDate(clockStrike)
+      dateTime: getNextRoundDate(clockStrike, shift)
   };
 }
 
-function getNextRoundDate(clockStrike){
+function getNextRoundDate(clockStrike, shift = 0){
   let now = new Date();
   const currentMinutes = now.getMinutes();
+  now.setMinutes(currentMinutes, 0, 0); // remove seconds and milliseconds
   
   // Calculate how many minutes need to be added to make it divisible by clockStrike
   const minutesToAdd = clockStrike - (currentMinutes % clockStrike);
-  
-  // Create a new Date object for the next occurrence
-  const SECOND_MILLIS = 60000;
-  now.setMinutes(currentMinutes, 0, 0); // puts seconds and milliseconds to zero 
-  const nextDate = new Date(now.getTime() + minutesToAdd * SECOND_MILLIS);
+  const nextDate = new Date(now.getTime() + minutesToAdd * SECOND_MILLIS + shift * clockStrike * SECOND_MILLIS);
   
   return nextDate;
 }
-// ====================================================================
+// =============================================================
