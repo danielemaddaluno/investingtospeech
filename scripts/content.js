@@ -25,35 +25,37 @@ function notifyEvents(events) {
 
 // TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
-const checkSeconds = 15;
+const checkSeconds = 10;
 
 function performCheck() {
+  if(!settings || !settings.alertTriggers || settings.alertTriggers.length === 0) return;
+
   const now = new Date();
   const seconds = now.getSeconds();
 
   if (seconds % checkSeconds === 0) {
-      console.log(`Performing check at ${now.toLocaleTimeString()}`);
+    console.log(`Performing check at ${now.toLocaleTimeString()}`);
 
-      const economicEvents = getEconomicEvents();
-      const clockEvents = getClockStrikeEvents();
-      const events = economicEvents.concat(clockEvents);
+    const economicEvents = getEconomicEvents();
+    const clockEvents = getClockStrikeEvents();
+    const events = economicEvents.concat(clockEvents);
 
-      const validEvents = events
-      .filter(event => event.dateTime) // Exclude events without dateTime
-      .filter(event => {
-        event.minutesLeft = null; 
-        
-        return settings.alertMinutes.some(alertMinute => {
-          const secondsLeft = (event.dateTime - now) / 1000;
-          const alertSecondsLeft = secondsLeft - alertMinute * 60;
-          if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
-            event.minutesLeft = alertMinute;
-            return true;
-          }
-          return false;
-        });
+    const validEvents = events
+    .filter(event => event.dateTime) // Exclude events without dateTime
+    .filter(event => {
+      event.secondsLeft = null; 
+      
+      return settings.alertTriggers.some(alertTrigger => {
+        const secondsLeft = (event.dateTime - now) / 1000;
+        const alertSecondsLeft = secondsLeft - alertTrigger;
+        if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
+          event.secondsLeft = alertTrigger;
+          return true;
+        }
+        return false;
       });
-      notifyEvents(validEvents);
+    });
+    notifyEvents(validEvents);
   }
 }
 

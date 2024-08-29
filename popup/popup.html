@@ -27,18 +27,22 @@ limitations under the License.
     
     <div class="option-group">
         <h3>Economic Event Alerts (minutes)</h3>
-        <label><input type="checkbox" name="alertMinute" value="1"> 1</label>
-        <label><input type="checkbox" name="alertMinute" value="5"> 5</label>
-        <label><input type="checkbox" name="alertMinute" value="10"> 10</label>
-        <label><input type="checkbox" name="alertMinute" value="15"> 15</label>
+
+        <!-- See checkSeconds inside content.js if you need to change here, be sure that it's a multiple of checkSeconds -->
+        <label><input type="checkbox" name="alertTrigger" value="10"> 10 sec</label>
+        <label><input type="checkbox" name="alertTrigger" value="30"> 30 sec</label>
+        <label><input type="checkbox" name="alertTrigger" value="60"> 1 min</label>
+        <label><input type="checkbox" name="alertTrigger" value="300"> 5 min</label>
+        <label><input type="checkbox" name="alertTrigger" value="600"> 10 min</label>
+        <label><input type="checkbox" name="alertTrigger" value="900"> 15 min</label>
     </div>
     <br/>
     <div class="option-group">
         <h3>Clock Strike Alerts (minutes)</h3>
         <label><input type="radio" name="clockStrike" value="null"> Off</label>
-        <label><input type="radio" name="clockStrike" value="15"> 15</label>
-        <label><input type="radio" name="clockStrike" value="30"> 30</label>
-        <label><input type="radio" name="clockStrike" value="60"> 60</label>
+        <label><input type="radio" name="clockStrike" value="15"> 15 min</label>
+        <label><input type="radio" name="clockStrike" value="30"> 30 min</label>
+        <label><input type="radio" name="clockStrike" value="60"> 60 min</label>
     </div>
     <br/>
     <button id="save">Save Settings</button>

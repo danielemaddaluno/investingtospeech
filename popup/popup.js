@@ -14,10 +14,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   // Load saved settings
-  chrome.storage.sync.get(['alertMinutes', 'clockStrike'], function(result) {
-      if (result.alertMinutes) {
-          result.alertMinutes.forEach(value => {
-              document.querySelector(`input[name="alertMinute"][value="${value}"]`).checked = true;
+  chrome.storage.sync.get(['alertTriggers', 'clockStrike'], function(result) {
+      if (result.alertTriggers) {
+          result.alertTriggers.forEach(value => {
+              document.querySelector(`input[name="alertTrigger"][value="${value}"]`).checked = true;
           });
       }
       if (result.clockStrike) {
@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Save settings
   document.getElementById('save').addEventListener('click', function() {
-      const alertMinutes = Array.from(document.querySelectorAll('input[name="alertMinute"]:checked'))
+      const alertTriggers = Array.from(document.querySelectorAll('input[name="alertTrigger"]:checked'))
           .map(input => parseInt(input.value));
 
       const clockStrike = document.querySelector('input[name="clockStrike"]:checked').value;
 
       chrome.storage.sync.set({
-          alertMinutes: alertMinutes,
+          alertTriggers: alertTriggers,
           clockStrike: clockStrike === 'null' ? null : parseInt(clockStrike)
       }, function() {
           console.log('Settings saved');
