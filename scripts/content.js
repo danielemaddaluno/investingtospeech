@@ -14,7 +14,7 @@
 
 // const events = getEconomicEvents();
 // console.log("Economic Events:", events);
-
+const ITS_CONTENT_JS = "content.js";
 
 // Function to handle notifications
 function notifyEvents(events) {
@@ -22,6 +22,8 @@ function notifyEvents(events) {
     events.forEach(event => {
       chrome.runtime.sendMessage({action: "notifyEvent", event: event});
     });
+  } else {
+    log.warn(ITS_CONTENT_JS, "Chrome.runtime is null");
   }
 }
 
@@ -36,8 +38,6 @@ function performCheck() {
   const seconds = now.getSeconds();
 
   if (seconds % checkSeconds === 0) {
-    console.log(`Performing check at ${now.toLocaleTimeString()}`);
-
     const economicEvents = getEconomicEvents();
     const clockEvents = getClockStrikeEvents();
     const events = economicEvents.concat(clockEvents);
@@ -57,6 +57,14 @@ function performCheck() {
           return false;
         });
       });
+
+    log.info(ITS_CONTENT_JS, `Performing check at ${now.toLocaleTimeString()}`, {
+      economicEvents: economicEvents,
+      clockEvents: clockEvents,
+      events: events,
+      validEvents: validEvents
+    });
+    
     notifyEvents(validEvents);
   }
 }

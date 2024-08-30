@@ -19,7 +19,6 @@ function timeText(secondsLeft) {
   } else {
     return `${secondsLeft} ${secondsLeft > 1 ? "seconds" : "second"}`;
   }
-  return ;
 }
 
 function starsText(stars) {
@@ -38,6 +37,7 @@ function getTextToRead(event) {
     const timeToText = `${timeText(event.secondsLeft)} to ${formattedTime}`;
     return eventName + timeToText;
   } else {
+    console.warn("Unknown event type.");
     return "Unknown event type.";
   }
 }
@@ -48,7 +48,7 @@ let isSpeaking = false;
 
 function notifyEvent(event) {
   const text = getTextToRead(event);
-  console.log("Queuing TTS: " + text);
+  console.info("Queuing TTS:", text);
   ttsQueue.push(text);
   processQueue();
 }

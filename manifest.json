@@ -24,6 +24,7 @@
         "scripts/settings.js", 
         "scripts/events.js", 
         "scripts/clocks.js",
+        "scripts/logs.js",
         "scripts/tests.js"
       ],
       "matches": [
