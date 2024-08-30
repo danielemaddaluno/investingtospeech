@@ -58,13 +58,20 @@ function performCheck() {
         });
       });
 
-    log.info(ITS_CONTENT_JS, `Performing check at ${now.toLocaleTimeString()}`, {
+    const loggedJson = {
       economicEvents: economicEvents,
       clockEvents: clockEvents,
       events: events,
       validEvents: validEvents
-    });
-    
+    };
+
+    const performingCheckAt = `- Performing check at ${now.toLocaleTimeString()} -`;
+    const validEventsSize = loggedJson.validEvents.length;
+    validEventsSize > 0 ? 
+      log.success(ITS_CONTENT_JS, performingCheckAt, `${validEventsSize} Valid Event${validEventsSize > 1 ? 's' : ''}`) : 
+      log.empty(ITS_CONTENT_JS, performingCheckAt, `No Valid Events`);
+    log.info(ITS_CONTENT_JS, loggedJson);
+
     notifyEvents(validEvents);
   }
 }
