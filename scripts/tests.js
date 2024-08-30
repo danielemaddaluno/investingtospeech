@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const ITS_TESTS_JS = "tests.js";
 const test = false;
 const nextMin = getNextMinute();
 function getNextMinute() {
@@ -34,11 +35,9 @@ if(test){
     //console.log(new Date("Tuesday, August 27, 2024 11:51 GMT-0500").toUTCString())
 
     const events = getEconomicEvents();
+    log.info(ITS_TESTS_JS, "economic events:", events);
 
-    console.log("Economic Events:");
-    console.log(events);
-
-    console.log("Clock Strike Events:");
-    console.log([]);
+    const clocks = getClockStrikeEvents();
+    log.info(ITS_TESTS_JS, "clock strike events:", clocks);
   });
 }

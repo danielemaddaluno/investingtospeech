@@ -12,14 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-// Function to get the time zone from the page
-function getTimeZone() {
-  const timeZoneEl = document.querySelector("span#timeZoneGmtOffsetFormatted");
-  const timeZoneParenthesis = timeZoneEl ? timeZoneEl.textContent.trim() : null;
-  return timeZoneParenthesis ? timeZoneParenthesis.replace("(", "").replace(")", "") : null;
-}
-
 // Function to get the economic events from the table economicCalendarData
 function getEconomicEvents() {
   const table = document.querySelector("table#economicCalendarData");
@@ -48,6 +40,13 @@ function getEconomicEvents() {
   });
 
   return events;
+}
+
+// Function to get the time zone from the page
+function getTimeZone() {
+  const timeZoneEl = document.querySelector("span#timeZoneGmtOffsetFormatted");
+  const timeZoneParenthesis = timeZoneEl ? timeZoneEl.textContent.trim() : null;
+  return timeZoneParenthesis ? timeZoneParenthesis.replace("(", "").replace(")", "") : null;
 }
 
 // =================== Function to extract the date from the date row ===================
