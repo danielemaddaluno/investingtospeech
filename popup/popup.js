@@ -15,7 +15,8 @@
 import { checkCurrentTab, setupRedirectListener } from './popupManager.js';
 
 let saveTimeout;
-const SAVE_DELAY = 1500; // millis of delay, adjust as needed
+const SAVE_DELAY          = 1000; // millis of delay, adjust as needed
+const SAVE_DONE_DURATION  = 1000; // millis of duration of the "Settings saved" div
 
 document.addEventListener('DOMContentLoaded', function() {
   checkCurrentTab();
@@ -66,5 +67,5 @@ function showSaveMessage() {
   saveMessage.style.display = 'flex';
   setTimeout(() => {
     saveMessage.style.display = 'none';
-  }, 1500);
+  }, SAVE_DONE_DURATION);
 }
