@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const ITS_TESTS_JS = "tests.js";
-const test = false;
-const nextMin = getNextMinute();
-function getNextMinute() {
+// injected-script.js
+// import { doStuff } from './my-other-script.js';
+alert("Hello world");
+
+window.getNextMinute = function() {
   // Get the current date and time
   const now = new Date();
 
@@ -29,26 +30,3 @@ function getNextMinute() {
   // Format the time as "hh:mm"
   return `${hours}:${minutes}`;
 }
-
-if(test){
-  window.addEventListener('load', () => {
-    //console.log(new Date("Tuesday, August 27, 2024 11:51 GMT-0500").toUTCString())
-
-    const events = getEconomicEvents();
-    log.info(ITS_TESTS_JS, "economic events:", events);
-
-    const clocks = getClockStrikeEvents();
-    log.info(ITS_TESTS_JS, "clock strike events:", clocks);
-  });
-}
-
-
-function injectScript(src) {
-  const s = document.createElement('script');
-  s.src = chrome.runtime.getURL(src);
-  s.type = "module" // <-- Add this line for ESM module support
-  s.onload = () => s.remove();
-  (document.head || document.documentElement).append(s);
-}
-
-injectScript('test-injected.js')
