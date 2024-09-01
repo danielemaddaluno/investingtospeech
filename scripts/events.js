@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+// ============================== 📅 Calendar Events Finder ==============================
 // Function to get the economic events from the table economicCalendarData
 function getEconomicEvents() {
   const table = document.querySelector("table#economicCalendarData");
@@ -48,6 +50,8 @@ function getTimeZone() {
   const timeZoneParenthesis = timeZoneEl ? timeZoneEl.textContent.trim() : null;
   return timeZoneParenthesis ? timeZoneParenthesis.replace("(", "").replace(")", "") : null;
 }
+// ======================================================================================
+
 
 // =================== Function to extract the date from the date row ===================
 function parseDateRow(dateRow) {
@@ -79,7 +83,6 @@ function parseEventRow(eventRow, day, timeZone) {
 }
 
 function extractTime(eventRow) {
-  if (test) return nextMin;
   const dateTime = eventRow.getAttribute("data-event-datetime");
   return dateTime ? dateTime.split(" ")[1] : "All Day";
 }

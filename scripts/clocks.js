@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// =================== ⏱️ Find Strike Events ===================
+// ======================== ⏱️ Clock Strike Events Finder ========================
 const SECONDS = 60;
 const MILLIS = 1000;
 // const settings = {clockStrike: 2, alertTriggers: [60, 300]};
@@ -45,7 +45,10 @@ function getClockStrikeEvent(clockStrike, shift = 0) {
       dateTime: getRoundDateTime(clockStrike, shift)
   };
 }
+// ===============================================================================
 
+
+// =========================== ⏱️ Date Time Utilities ===========================
 function getRoundDateTime(clockStrike, shift = 0){
   let now = new Date();
   const currentMinutes = now.getMinutes();
@@ -65,4 +68,4 @@ function secondsToMillis(seconds){
 function minutesToMillis(minutes){
   return minutes * SECONDS * MILLIS;
 }
-// =============================================================
+// ==============================================================================

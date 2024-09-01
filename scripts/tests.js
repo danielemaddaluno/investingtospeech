@@ -12,7 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// To use tests.js from the console:
+// - open the inspector
+// - open console tab
+// - change the dropdown value from "top" to "Investing To Speech"
+// - then you should be able to call all the functions that are written here
+
 const ITS_TESTS_JS = "tests.js";
+
+function logLevel(level){
+  log.logLevel = "info";
+  log.update(ITS_TESTS_JS, `Updated log level: ${level}`);
+  log.logLevel = level;
+}
+
 const test = false;
 const nextMin = getNextMinute();
 function getNextMinute() {
@@ -41,14 +54,3 @@ if(test){
     log.info(ITS_TESTS_JS, "clock strike events:", clocks);
   });
 }
-
-
-function injectScript(src) {
-  const s = document.createElement('script');
-  s.src = chrome.runtime.getURL(src);
-  s.type = "module" // <-- Add this line for ESM module support
-  s.onload = () => s.remove();
-  (document.head || document.documentElement).append(s);
-}
-
-injectScript('test-injected.js')

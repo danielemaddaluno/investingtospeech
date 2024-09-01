@@ -25,8 +25,7 @@
         "scripts/events.js", 
         "scripts/clocks.js",
         "scripts/logs.js",
-        "scripts/tests.js",
-        "scripts/tests-injected.js"
+        "scripts/tests.js"
       ],
       "matches": [
         "https://www.investing.com/economic-calendar/"

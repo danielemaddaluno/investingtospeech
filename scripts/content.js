@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 // TODO find a more efficient way than polling (maybe with a MutationObserver)
 // =================================== Timed Polling ====================================
 const ITS_CONTENT_JS = "content.js";
+
 // Set the interval for checking for new upcoming news
 const CHECK_SECONDS = 10;
 

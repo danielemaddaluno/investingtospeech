@@ -12,47 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Simplified Logs
-// const logs = true;
-// function log(...data){
-//   if(logs){
-//     console.log(data);
-//   }
-// }
-// export { log };
 
-
-// Configuration for logging level
-const LOG_ID    = 'ITS';
-const LOG_LEVEL = 'info';  // Set the log level ('none', 'error', 'warn', 'info')
-
-const colors = {
-  reset: '\x1B[0m',
-
-  // Text color (basic)
-  black: '\x1B[30m',
-  red: '\x1B[31m',
-  green: '\x1B[32m',
-  yellow: '\x1B[33m',
-  blue: '\x1B[34m',
-  magenta: '\x1B[35m',
-  cyan: '\x1B[36m',
-  white: '\x1B[37m',
-
-  // Background color
-  blackBg: '\x1B[40m',
-  redBg: '\x1B[41m',
-  greenBg: '\x1B[42m',
-  yellowBg: '\x1B[43m',
-  blueBg: '\x1B[44m',
-  magentaBg: '\x1B[45m',
-  cyanBg: '\x1B[46m',
-  whiteBg: '\x1B[47m'
-}
-
-// Logging utility object
-const log = {
-  logLevel: LOG_LEVEL,
+const LOG_ID = 'ITS';
+const log = { // <-- Logging utility object
+  logLevel: "info", // <-- Set the log level ('none', 'error', 'warn', 'info')
   
   // Internal method to check if a message should be logged
   shouldLog(level) {
@@ -97,3 +60,28 @@ const log = {
     }
   }
 };
+
+
+const colors = {
+  reset: '\x1B[0m',
+
+  // Text color (basic)
+  black: '\x1B[30m',
+  red: '\x1B[31m',
+  green: '\x1B[32m',
+  yellow: '\x1B[33m',
+  blue: '\x1B[34m',
+  magenta: '\x1B[35m',
+  cyan: '\x1B[36m',
+  white: '\x1B[37m',
+
+  // Background color
+  blackBg: '\x1B[40m',
+  redBg: '\x1B[41m',
+  greenBg: '\x1B[42m',
+  yellowBg: '\x1B[43m',
+  blueBg: '\x1B[44m',
+  magentaBg: '\x1B[45m',
+  cyanBg: '\x1B[46m',
+  whiteBg: '\x1B[47m'
+}

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+// =================================== TTS Text Generator ====================================
 function timeText(secondsLeft) {
   if(secondsLeft % 60 == 0){
     const minutesLeft = secondsLeft / 60;
@@ -41,7 +43,10 @@ function getTextToRead(event) {
     return "Unknown event type.";
   }
 }
+// ===========================================================================================
 
+
+// =================================== TTS Queue and Speak ====================================
 // Queue to store pending TTS messages
 const ttsQueue = [];
 let isSpeaking = false;
@@ -73,10 +78,14 @@ function processQueue() {
     }
   });
 }
+// ============================================================================================
 
+
+// ======================= Event Message Receiver =======================
 // Listen for messages from content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "notifyEvent") {
     notifyEvent(message.event);
   }
 });
+// ======================================================================
