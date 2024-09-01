@@ -19,13 +19,14 @@
 // - then you should be able change log levels executing "log.setLevel('info')"
 
 const LOG_ID = 'ITS';
+const LOGS_JS = "logs.js";
 
 const log = { // <-- Logging utility object
   logLevel: 'none', // <-- Set the log level ('none', 'error', 'warn', 'info')
   
   setLevel(level){
     log.logLevel = 'info';
-    log.update(ITS_TESTS_JS, `Updated log level: ${level}`);
+    log.update(LOGS_JS, `Updated log level: ${level}`);
     log.logLevel = level;
   },
 
