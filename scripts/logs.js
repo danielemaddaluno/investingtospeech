@@ -29,8 +29,7 @@ const LOG_LEVEL = 'info';  // Set the log level ('none', 'error', 'warn', 'info'
 const colors = {
   reset: '\x1B[0m',
 
-  //text color
-
+  // Text color (basic)
   black: '\x1B[30m',
   red: '\x1B[31m',
   green: '\x1B[32m',
@@ -40,8 +39,7 @@ const colors = {
   cyan: '\x1B[36m',
   white: '\x1B[37m',
 
-  //background color
-
+  // Background color
   blackBg: '\x1B[40m',
   redBg: '\x1B[41m',
   greenBg: '\x1B[42m',
@@ -64,11 +62,8 @@ const log = {
 
   coloredLog(color, ...args) {
     if (this.shouldLog('info')) {
-      // Extract args[1] and the rest of the arguments from args[2] onwards
-      const [firstArg, ...restArgs] = args[0];
-      const text = restArgs.join(' ');
-      // Log the coloured message
-      console.info(`${color}${LOG_ID} ${firstArg} ${text}${colors.reset}`);
+      const text = args[0].join(' ');
+      console.info(`${color}${LOG_ID} ${text}${colors.reset}`);
     }
   },
 
@@ -78,6 +73,10 @@ const log = {
 
   empty(...args) {
     this.coloredLog(colors.blue, args);
+  },
+
+  update(...args) {
+    this.coloredLog(colors.magenta, args);
   },
 
   info(...args) {

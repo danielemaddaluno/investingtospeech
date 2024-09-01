@@ -25,7 +25,7 @@ function updateSettings(changes) {
   for (let key in changes) {
     if (key === 'alertTriggers' || key === 'clockStrike') {
       settings[key] = changes[key].newValue;
-      log.info(ITS_SETTINGS_JS, `Updated ${key}:`, settings[key]);
+      log.update(ITS_SETTINGS_JS, `Updated ${key}:`, settings[key]);
     }
   }
 }
