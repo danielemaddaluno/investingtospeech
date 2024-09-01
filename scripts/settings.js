@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const ITS_SETTINGS_JS = "settings.js";
+const SETTINGS_JS = "settings.js";
 
 // Initialize the settings object accessible from other scripts
 let settings = {
@@ -25,7 +25,7 @@ function updateSettings(changes) {
   for (let key in changes) {
     if (key === 'alertTriggers' || key === 'clockStrike') {
       settings[key] = changes[key].newValue;
-      log.info(ITS_SETTINGS_JS, `Updated ${key}:`, settings[key]);
+      log.update(SETTINGS_JS, `Updated ${key}:`, settings[key]);
     }
   }
 }
@@ -40,5 +40,5 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 // Initial load of settings
 chrome.storage.sync.get(['alertTriggers', 'clockStrike'], (result) => {
   settings = result;
-  log.info(ITS_SETTINGS_JS, 'Initial settings loaded:', settings);
+  log.info(SETTINGS_JS, 'Initial settings loaded:', settings);
 });
