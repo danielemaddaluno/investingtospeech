@@ -12,24 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// const events = getEconomicEvents();
-// console.log("Economic Events:", events);
+// TODO find a more efficient way than polling (maybe with a MutationObserver)
+// =================================== Timed Polling ====================================
 const ITS_CONTENT_JS = "content.js";
-
-// Function to handle notifications
-function notifyEvents(events) {
-  if (chrome.runtime?.id) {
-    events.forEach(event => {
-      chrome.runtime.sendMessage({action: "notifyEvent", event: event});
-    });
-  } else {
-    log.warn(ITS_CONTENT_JS, "Chrome.runtime is null");
-  }
-}
-
-// TODO find a more efficient way than polling
 // Set the interval for checking for new upcoming news
-const checkSeconds = 10;
+const CHECK_SECONDS = 10;
 
 function performCheck() {
   if(!settings || !settings.alertTriggers || settings.alertTriggers.length === 0) return;
@@ -37,7 +24,7 @@ function performCheck() {
   const now = new Date();
   const seconds = now.getSeconds();
 
-  if (seconds % checkSeconds === 0) {
+  if (seconds % CHECK_SECONDS === 0) {
     const economicEvents = getEconomicEvents();
     const clockEvents = getClockStrikeEvents();
     const events = economicEvents.concat(clockEvents);
@@ -50,7 +37,7 @@ function performCheck() {
         return settings.alertTriggers.some(alertTrigger => {
           const secondsLeft = (event.dateTime - now) / 1000;
           const alertSecondsLeft = secondsLeft - alertTrigger;
-          if (alertSecondsLeft <= 0 && alertSecondsLeft >= -checkSeconds) {
+          if (alertSecondsLeft <= 0 && alertSecondsLeft >= -CHECK_SECONDS) {
             event.secondsLeft = alertTrigger;
             return true;
           }
@@ -76,5 +63,17 @@ function performCheck() {
   }
 }
 
-// Optional: Function to stop checking if needed --> clearInterval(checkingInterval);
+// Function to handle notifications
+function notifyEvents(events) {
+  if (chrome.runtime?.id) {
+    events.forEach(event => {
+      chrome.runtime.sendMessage({action: "notifyEvent", event: event});
+    });
+  } else {
+    log.warn(ITS_CONTENT_JS, "Chrome.runtime is null");
+  }
+}
+
+// Function to stop checking if needed --> clearInterval(checkingInterval);
 const checkingInterval = setInterval(performCheck, 1000);
+// ======================================================================================
