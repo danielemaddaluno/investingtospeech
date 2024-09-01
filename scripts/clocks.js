@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // ======================== ⏱️ Clock Strike Events Finder ========================
 const SECONDS = 60;
 const MILLIS = 1000;
@@ -48,15 +47,15 @@ function getClockStrikeEvent(clockStrike, shift = 0) {
 // ===============================================================================
 
 
-// =========================== ⏱️ Date Time Utilities ===========================
-function getRoundDateTime(clockStrike, shift = 0){
+// =========================== 🌞 Date Time Utilities 🌙 ===========================
+function getRoundDateTime(roundMinutes, shift = 0){
   let now = new Date();
   const currentMinutes = now.getMinutes();
   now.setMinutes(currentMinutes, 0, 0); // remove seconds and milliseconds
   
-  // Calculate how many minutes need to be added to make it divisible by clockStrike
-  const minutesToAdd = clockStrike - (currentMinutes % clockStrike);
-  const nextDate = new Date(now.getTime() + minutesToMillis(minutesToAdd) + shift * minutesToMillis(clockStrike));
+  // Calculate how many minutes need to be added to make it divisible by roundMinutes
+  const minutesToAdd = roundMinutes - (currentMinutes % roundMinutes);
+  const nextDate = new Date(now.getTime() + minutesToMillis(minutesToAdd) + shift * minutesToMillis(roundMinutes));
   
   return nextDate;
 }
@@ -68,4 +67,4 @@ function secondsToMillis(seconds){
 function minutesToMillis(minutes){
   return minutes * SECONDS * MILLIS;
 }
-// ==============================================================================
+// ===============================================================================

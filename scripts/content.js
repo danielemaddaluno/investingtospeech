@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // TODO find a more efficient way than polling (maybe with a MutationObserver)
-// =================================== Timed Polling ====================================
-const ITS_CONTENT_JS = "content.js";
+// =================================== ⏳ Timed Polling ====================================
+const CONTENT_JS = "content.js";
 
 // Set the interval for checking for new upcoming news
 const CHECK_SECONDS = 10;
@@ -57,14 +56,20 @@ function performCheck() {
     const performingCheckAt = `- Performing check at ${now.toLocaleTimeString()} -`;
     const validEventsSize = loggedJson.validEvents.length;
     validEventsSize > 0 ? 
-      log.success(ITS_CONTENT_JS, performingCheckAt, `${validEventsSize} Valid Event${validEventsSize > 1 ? 's' : ''}`) : 
-      log.empty(ITS_CONTENT_JS, performingCheckAt, `No Valid Events`);
-    log.info(ITS_CONTENT_JS, loggedJson);
+      log.success(CONTENT_JS, performingCheckAt, `${validEventsSize} Valid Event${validEventsSize > 1 ? 's' : ''}`) : 
+      log.empty(CONTENT_JS, performingCheckAt, `No Valid Events`);
+    log.info(CONTENT_JS, loggedJson);
 
     notifyEvents(validEvents);
   }
 }
 
+// Function to stop checking if needed --> clearInterval(checkingInterval);
+const checkingInterval = setInterval(performCheck, 1000);
+// =======================================================================================
+
+
+// =============================== 📤 Send Event Messages 📮 ======================
 // Function to handle notifications
 function notifyEvents(events) {
   if (chrome.runtime?.id) {
@@ -72,10 +77,7 @@ function notifyEvents(events) {
       chrome.runtime.sendMessage({action: "notifyEvent", event: event});
     });
   } else {
-    log.warn(ITS_CONTENT_JS, "Chrome.runtime is null");
+    log.warn(CONTENT_JS, "Chrome.runtime is null");
   }
 }
-
-// Function to stop checking if needed --> clearInterval(checkingInterval);
-const checkingInterval = setInterval(performCheck, 1000);
-// ======================================================================================
+// ==============================================================================

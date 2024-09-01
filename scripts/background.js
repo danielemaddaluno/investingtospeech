@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-// =================================== TTS Text Generator ====================================
+// ================================ 💬 TTS Text Generator =================================
 function timeText(secondsLeft) {
   if(secondsLeft % 60 == 0){
     const minutesLeft = secondsLeft / 60;
@@ -35,7 +34,9 @@ function getTextToRead(event) {
     return timeToText + sentimentText + titleText;
   } else if (event.type === "ClockStrikeEvent") {
     const eventName = "Clock strike event: ";
-    const formattedTime = new Date(event.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const formattedTime = new Date(event.dateTime).toLocaleTimeString([], { 
+      hour: '2-digit', minute: '2-digit', hour12: false 
+    });
     const timeToText = `${timeText(event.secondsLeft)} to ${formattedTime}`;
     return eventName + timeToText;
   } else {
@@ -43,10 +44,10 @@ function getTextToRead(event) {
     return "Unknown event type.";
   }
 }
-// ===========================================================================================
+// =======================================================================================
 
 
-// =================================== TTS Queue and Speak ====================================
+// =============================== 🗣️ TTS Queue and Speak ================================
 // Queue to store pending TTS messages
 const ttsQueue = [];
 let isSpeaking = false;
@@ -78,10 +79,10 @@ function processQueue() {
     }
   });
 }
-// ============================================================================================
+// =======================================================================================
 
 
-// ======================= Event Message Receiver =======================
+// ===================== 📥 Receive Event Messages 📬 =====================
 // Listen for messages from content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "notifyEvent") {

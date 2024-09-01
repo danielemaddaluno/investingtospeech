@@ -12,11 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// To set logs visibility from console:
+// - open the inspector
+// - open console tab
+// - change the dropdown value from "top" to "Investing To Speech"
+// - then you should be able change log levels executing "log.setLevel('info')"
 
 const LOG_ID = 'ITS';
+
 const log = { // <-- Logging utility object
-  logLevel: "info", // <-- Set the log level ('none', 'error', 'warn', 'info')
+  logLevel: 'none', // <-- Set the log level ('none', 'error', 'warn', 'info')
   
+  setLevel(level){
+    log.logLevel = 'info';
+    log.update(ITS_TESTS_JS, `Updated log level: ${level}`);
+    log.logLevel = level;
+  },
+
   // Internal method to check if a message should be logged
   shouldLog(level) {
     const levels = ['none', 'error', 'warn', 'info'];
@@ -60,7 +72,6 @@ const log = { // <-- Logging utility object
     }
   }
 };
-
 
 const colors = {
   reset: '\x1B[0m',
