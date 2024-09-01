@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ============================== 📅 Calendar Events Finder ==============================
+const EVENTS_JS = "events.js";
+
 // Function to get the economic events from the table economicCalendarData
 function getEconomicEvents() {
   const table = document.querySelector("table#economicCalendarData");
@@ -21,21 +24,16 @@ function getEconomicEvents() {
   const timeZone = getTimeZone();
 
   rows.forEach(row => {
-      // Find the first <td> inside of <tr>
-      const firstTd = row.querySelector('td');
-
       // Controlla se il primo <td> ha la classe "theDay"
-      if (firstTd && firstTd.classList.contains('theDay')) {
+      if (row.firstElementChild?.classList.contains("theDay")) {
         // Logic for the day row
-        //console.log('The row contains the "theDay" class. with date ' + day);
         day = parseDateRow(row);
       } else if (row.id.startsWith("eventRowId_")) {
         // Logic for economic event
-        // console.log('The row ID starts with "eventRowId_".');
         const event = parseEventRow(row, day, timeZone);
         events.push(event);
       } else {
-        //console.log('The row does not match any conditions.');
+        console.warn(EVENTS_JS, "The table row does not match any conditions.");
       }
   });
 
@@ -48,6 +46,8 @@ function getTimeZone() {
   const timeZoneParenthesis = timeZoneEl ? timeZoneEl.textContent.trim() : null;
   return timeZoneParenthesis ? timeZoneParenthesis.replace("(", "").replace(")", "") : null;
 }
+// ======================================================================================
+
 
 // =================== Function to extract the date from the date row ===================
 function parseDateRow(dateRow) {
@@ -79,7 +79,6 @@ function parseEventRow(eventRow, day, timeZone) {
 }
 
 function extractTime(eventRow) {
-  if (test) return nextMin;
   const dateTime = eventRow.getAttribute("data-event-datetime");
   return dateTime ? dateTime.split(" ")[1] : "All Day";
 }
