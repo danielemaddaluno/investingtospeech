@@ -20,40 +20,31 @@
 
 const TESTS_JS = "tests.js";
 
-const test = false;
-const nextMin = getNextMinute();
-function getNextMinute() {
-  // Get the current date and time
-  const now = new Date();
-
-  // Add one minute to the current time
-  now.setMinutes(now.getMinutes() + 2);
-
-  // Get the hours and minutes from the updated time
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-
-  // Format the time as "hh:mm"
-  return `${hours}:${minutes}`;
-}
-
-
 function testEvents(){
+  const logLevel = log.logLevel;
+  if(logLevel !== 'info'){
+    log.setLevel('info');
+  }
+
   const events = getEconomicEvents();
   log.info(TESTS_JS, "economic events:", events);
 
   const clocks = getClockStrikeEvents();
   log.info(TESTS_JS, "clock strike events:", clocks);
+
+  if(logLevel !== 'info'){
+    log.setLevel(logLevel);
+  }
 }
 
 function testAfterMins(index=0, minutes){
   const next = getRoundDateTime(1, minutes);
-  changeEventHms(index, next);
+  changeEventDateTime(index, next);
 }
 
 function testSecs(index=0){
   const next = getRoundDateTime(1, 0);
-  changeEventHms(index, next);
+  changeEventDateTime(index, next);
 }
 
 function test1Min(index=0){
@@ -72,7 +63,7 @@ function test15Min(index=0){
   testAfterMins(index, 15);
 }
 
-function changeEventHms(index=0, dateTime=new Date()) {
+function changeEventDateTime(index=0, dateTime=new Date()) {
   const h = dateTime.getHours();
   const m = dateTime.getMinutes();
   const s = dateTime.getSeconds();
