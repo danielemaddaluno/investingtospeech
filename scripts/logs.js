@@ -17,6 +17,7 @@
 // - open console tab
 // - change the dropdown value from "top" to "Investing To Speech"
 // - then you should be able change log levels executing "log.setLevel('info')"
+// - finally filter only contents that starts with "ITS"
 
 const LOG_ID = 'ITS';
 const LOGS_JS = "logs.js";
