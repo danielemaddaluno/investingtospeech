@@ -40,7 +40,7 @@ function getTextToRead(event) {
     const timeToText = `${timeText(event.secondsLeft)} to ${formattedTime}`;
     return eventName + timeToText;
   } else {
-    console.warn("Unknown event type.");
+    console.warn("TTS - Unknown event type");
     return "Unknown event type.";
   }
 }
@@ -54,7 +54,7 @@ let isSpeaking = false;
 
 function notifyEvent(event) {
   const text = getTextToRead(event);
-  console.info("Queuing TTS:", text);
+  console.info("TTS - Queuing:", text);
   ttsQueue.push(text);
   processQueue();
 }
@@ -74,7 +74,7 @@ function processQueue() {
         processQueue(); // Process next item in the queue
       }
       if (event.type === 'error') {
-        console.error('TTS Error:', event);
+        console.error('TTS - Error:', event);
       }
     }
   });
