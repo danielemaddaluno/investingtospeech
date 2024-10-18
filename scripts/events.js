@@ -32,8 +32,6 @@ function getEconomicEvents() {
         // Logic for economic event
         const event = parseEventRow(row, day, timeZone);
         events.push(event);
-      } else {
-        console.warn(EVENTS_JS, "The table row does not match any conditions.");
       }
   });
 
